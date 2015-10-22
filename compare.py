@@ -89,14 +89,13 @@ def main(argv=None):
 		result = parseFile(argv[1])
 		gt = parseFile(argv[2])
 
-		isCorrect = result['answer'] == gt['answer']
-		
 		nGt = len(gt['objectArray'])
-		isCorrect = isCorrect and len(result['objectArray']) == nGt
+		isCorrect = len(result['objectArray']) == nGt
 		if (isCorrect):
 			isCorrect, nGears = checkObjects(result['objectArray'], gt['objectArray'])
 		else:
 			nGears = 0
+		isCorrect = isCorrect and (result['answer'] == gt['answer'])
 		if (isCorrect):
 			print("OK")
 		else:
