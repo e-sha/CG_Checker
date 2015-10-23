@@ -172,9 +172,11 @@ def writeStatistics(student, solution_stats, check_fail = False):
             score_base = score_base + int(st['result'] == 'OK')
         else:
             score_bonus1 = score_bonus1 + int(st['result'] == 'OK')
-            score_bonus2 = score_bonus2 + int(st['score'] == 1.0)
+        score_bonus2 = score_bonus2 + int(st['score'] == 1.0) * 0.5
 
-    stats_file.write("BASE %d BONUS_1 %f BONUS_2 %f" % (score_base, score_bonus1, score_bonus2))
+    summary_score = score_base + score_bonus1 + score_bonus2
+    stats_file.write("BASE %d BONUS_1 %f BONUS_2 %f SUMMARY %f"
+            % (score_base, score_bonus1, score_bonus2, summary_score))
 
     global_stats2 = codecs.open('stats/stats2.txt', 'w', encoding='utf-8')
 
@@ -189,7 +191,7 @@ def writeStatistics(student, solution_stats, check_fail = False):
                if check_fail:
                    xfmt = "%s\t%s\tX X\n" % (student['group'], student['id'])
                else:
-                   xfmt = "%s\t%s\t%d %f %f\n" % (student['group'], student['id'], score_base, score_bonus1, score_bonus2)
+                   xfmt = "%s\t%s\t%d %f %f %f\n" % (student['group'], student['id'], score_base, score_bonus1, score_bonus2, summary_score)
                global_stats2.write(xfmt)
                was_found = True
             else:
